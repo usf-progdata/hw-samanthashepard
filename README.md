@@ -1,6 +1,11 @@
-# Homework Template
+## Data Programming course
 
-This is template repository for hosting and posting your homework assignments for Programming with Data.
+#### Hi, I'm Sam.
 
-##Testing to make sure this pushes back up to Github!
-##Test1-24-21 12:21PM
+This repository is for my Data Programming class, in which I am learning best practices for **R and Github**.
+
+#### Bio
+
+I'm a 4th year PhD student at University of South Florida working under Dr. Kristen Salomon in the Cardiovascular Psychophysiology lab.
+
+I'm broadly interested in how women experience ambiguous sexism. 
