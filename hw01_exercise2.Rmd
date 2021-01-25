@@ -25,8 +25,13 @@ Number of rows in dataset:
 ```{r rows}
 nrow(penguins)
 ```
-Testing to see whether this pushes to Github
+What are the frequencies of the different penguin species?
+```{r freq}
+library(summarytools)
 
+freq(penguins$species, report.nas = FALSE, totals = FALSE, 
+     cumul = FALSE, headings = FALSE)
+```
 
 ## Including Plots
 

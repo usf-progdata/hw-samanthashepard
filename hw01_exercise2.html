@@ -436,6 +436,20 @@ summary {
 <p>Number of rows in dataset:</p>
 <pre class="r"><code>nrow(penguins)</code></pre>
 <pre><code>## [1] 344</code></pre>
+<p>What are the frequencies of the different penguin species?</p>
+<pre class="r"><code>library(summarytools)</code></pre>
+<pre><code>## Registered S3 method overwritten by &#39;pryr&#39;:
+##   method      from
+##   print.bytes Rcpp</code></pre>
+<pre><code>## For best results, restart R session and update pander using devtools:: or remotes::install_github(&#39;rapporter/pander&#39;)</code></pre>
+<pre class="r"><code>freq(penguins$species, report.nas = FALSE, totals = FALSE, 
+     cumul = FALSE, headings = FALSE)</code></pre>
+<pre><code>## 
+##                   Freq       %
+## --------------- ------ -------
+##          Adelie    152   44.19
+##       Chinstrap     68   19.77
+##          Gentoo    124   36.05</code></pre>
 </div>
 <div id="including-plots" class="section level2">
 <h2>Including Plots</h2>
