@@ -24,5 +24,4 @@ Email: samanthashep (at) usf (dot) edu
 #### A Kitten Gif
 For your troubles
 
-![](https://media.giphy.com/media/hvS1eKlR75hMr0l7VJ/giphy.gif)
-
+![](https://i.giphy.com/media/hvS1eKlR75hMr0l7VJ/giphy.webp)
