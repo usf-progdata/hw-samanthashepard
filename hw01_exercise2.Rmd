@@ -25,7 +25,7 @@ Number of rows in dataset:
 ```{r rows}
 nrow(penguins)
 ```
-What are the frequencies of the different penguin species?
+Frequencies of penguin species:
 ```{r freq}
 library(summarytools)
 
@@ -33,12 +33,7 @@ freq(penguins$species, report.nas = FALSE, totals = FALSE,
      cumul = FALSE, headings = FALSE)
 ```
 
-## Including Plots
-
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+Descriptive statistics of numerical variables in dataset:
+```{r descr}
+descr(penguins)
 ```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
