@@ -2,7 +2,10 @@
 title: "hw01_exercise2"
 author: "Sam Shepard"
 date: "1/25/2021"
-output: html_document
+output: 
+
+html_document: defualt
+github_document: default
 ---
 
 ```{r setup, include=FALSE}
