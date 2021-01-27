@@ -10,6 +10,7 @@ output:
 
 
 This repository is for my Data Programming class, in which I am learning best practices for **R and Github**.
+There is a "Homework" folder containing my assignments, as well as a "Misc" folder that contains additional learning materials.
 
 #### Bio
 
