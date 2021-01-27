@@ -2,10 +2,9 @@
 title: "hw01_exercise2"
 author: "Sam Shepard"
 date: "1/25/2021"
-output:  
-
-html_document: defualt
-github_document: default
+output:
+  html_document: default
+  github_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -38,5 +37,7 @@ freq(penguins$species, report.nas = FALSE, totals = FALSE,
 
 **Descriptive statistics of numerical variables in dataset:**
 ```{r descr}
+library(descr)
 descr(penguins)
+descr(penguins[ , 3:6])
 ```
