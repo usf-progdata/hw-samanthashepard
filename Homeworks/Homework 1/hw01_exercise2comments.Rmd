@@ -3,21 +3,18 @@ title: "hw01_exercise2"
 author: "Sam Shepard"
 date: "1/25/2021"
 output:
-  html_document: default
   github_document: default
+  html_document: default
 ---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+#loading package:
+library(palmerpenguins)
+library(descr)
 ```
 
 ## R Markdown
-
-**Loading package:**
-
-```{r palmerpenguins}
-library(palmerpenguins)
-```
 
 **View first few rows of dataset:**
 ```{r head}
@@ -37,7 +34,11 @@ freq(penguins$species, report.nas = FALSE, totals = FALSE,
 
 **Descriptive statistics of numerical variables in dataset:**
 ```{r descr}
+<<<<<<< HEAD:hw01_exercise2.Rmd
 library(descr)
 descr(penguins)
+=======
+#Descriptive stats of numerical variables:
+>>>>>>> bd69e982e189127ffd0dcfe9383373db1fa58466:Homeworks/Homework 1/hw01_exercise2comments.Rmd
 descr(penguins[ , 3:6])
 ```
