@@ -10,15 +10,11 @@ github_document: default
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+#loading package:
+library(palmerpenguins)
 ```
 
 ## R Markdown
-
-**Loading package:**
-
-```{r palmerpenguins}
-library(palmerpenguins)
-```
 
 **View first few rows of dataset:**
 ```{r head}
