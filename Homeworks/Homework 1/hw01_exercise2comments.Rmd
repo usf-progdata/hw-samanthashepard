@@ -7,6 +7,8 @@ output:
   html_document: default
 ---
 
+<!-- Great work! -->
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 #loading package:
@@ -17,14 +19,17 @@ library(descr)
 ## R Markdown
 
 **View first few rows of dataset:**
+
 ```{r head}
 head(penguins)
 ```
 **Number of rows in dataset:**
+
 ```{r rows}
 nrow(penguins)
 ```
 **Frequencies of penguin species:**
+
 ```{r freq}
 library(summarytools)
 
@@ -33,6 +38,7 @@ freq(penguins$species, report.nas = FALSE, totals = FALSE,
 ```
 
 **Descriptive statistics of numerical variables in dataset:**
+
 ```{r descr}
 descr(penguins[ , 3:6])
 ```
