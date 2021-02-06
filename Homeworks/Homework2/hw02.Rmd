@@ -73,9 +73,8 @@ Filter gapminder so that it shows the max GDP per capita experienced by each cou
 Hint: you might find the max() function useful here.
 
 ```{r}
-
-
-
+gapminder %>% group_by(country) %>%
+  summarise(max = max (gdpPercap))
 ```
 
 1.5
