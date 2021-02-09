@@ -29,19 +29,15 @@ Use dplyr functions to achieve the following.
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(ggplot2)
+library (gapminder)
 ```
 
 ## 1.1
 Use filter() to subset the gapminder data to three countries of your choice in the 1970’s.
 
 ```{r}
-#I can get 1 country and the year to filter, but not the countries together...
-gapminder %>%
-  filter(country == "Cuba" & country == "Vietnam" & country == "China", year > 1969 & year < 1981)
-
-#also tried this:
-gapminder %>%
-  filter(country == "Cuba", "Vietnam", "China", year > 1969 & year < 1981)
+samcountries <- gapminder %>%
+  filter(country %in% c("Cuba", "Vietnam", "China") & year > 1969 & year < 1981)
 ```
 
 
@@ -49,7 +45,7 @@ gapminder %>%
 Use the pipe operator %>% to select “country” and “gdpPercap” from your filtered dataset in 1.1.
 
 ```{r}
-gapminder %>%
+samcountries %>%
   select(country,gdpPercap)
 ```
 
