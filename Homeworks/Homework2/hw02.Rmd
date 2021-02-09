@@ -92,10 +92,11 @@ Use palmerpenguins::penguins or another dataset of your choice. (Check out a dat
 2.1
 Pick two quantitative variables to explore.
 
-Make a summary table of descriptive statistics for these variables using summarize().
+Make a summary table of descriptive statistics for these variables using summarize(). 
 Include whatever staistics you feel appropriate (mean, median sd, range, etc.).
 ```{r}
-
+penguins %>%  
+summarise(mean = mean(bill_length_mm))
 ```
 
 Make a scatterplot of these variables using ggplot().
@@ -110,7 +111,8 @@ Pick one categorical variable and one quantitative variable to explore.
 
 Make a summary table giving the sample size (hint: n()) and descriptive statistics for the quantitative variable by group.
 ```{r}
-
+  group_by(penguins, sex) %>% 
+  summarise(tibble(mean = mean(body_mass_g)), n())
 ```
 
 Make one or more useful plots to visualize these variables.
