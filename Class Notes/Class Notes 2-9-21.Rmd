@@ -1,0 +1,98 @@
+---
+title: "2/9/21"
+author: "Sam Shepard"
+date: "2/9/2021"
+output: html_document
+---
+
+## Class Notes 2/9/21
+If code isn't working, make sure you don't have competing packages loaded.
+
+
+Long version:
+```{r}
+gapminder %>%
+  summarize(mean_pop = mean(pop),
+          (sd_pop = sd(pop),
+           (mean_gdp = mean(gdpPercacp),
+           sd_gdp = sd(gdpPercap)
+           )
+```
+            
+            
+```{r}            
+gapminder%>%
+  summarize(across(c(pop, gdpPercap),
+                   list (Mean = mean, SD = sd)))
+```
+  
+DRY - don't repeat yourself
+
+```{r}
+
+```
+  
+"~" lets you add arguments that are outside the defualts; means that you're going to write out the whole function, rather than just the call name 
+".x" can be the placeholder of the variable you're working with
+```{r}
+gapminder %>% 
+  group_by(continent) %>% 
+  summarize(across(c(pop, gdpPercap),
+                   list(Mean = ~mean(.x, na.rm = TRUE),
+                        SD = ~sd(.x, na.rm = TRUE))))
+```  
+  
+  
+Rowwise command
+```{r}
+psych::bfi %>% 
+  rowwise() %>% 
+  mutate(A_tot = mean(c(A1, A2, A3, A4, A5), na.rm = TRUE),
+         )
+``` 
+mutate - creates a new column 
+c = creates vector
+
+1. Use the `psych::bfi` dataset.
+  :: pulls out bfi data from psych package
+  package::object
+  
+2. Compute mean scores for each of the Big Five traits for each person.
+3. Keep just Big Five scores, gender, age, and education.
+4. Summarize the mean, standard deviation, minimum, and maximum values for the Big Five scores separately by gender groups.
+5. Summarize the mean, standard deviation, minimum, and maximum values for the Big Five scores separately by educational level groups.
+```{r}
+bfi_scored <- psych::bfi %>%
+rowwise() %>% 
+mutate(Agree = mean(c(A1,A2,A3,A4,A5), na.rm = TRUE),
+       Con = mean(c_across(C1:C5), na.rm = TRUE),
+       Extra = mean(c_across(E1:E5), na.rm = TRUE),
+       Neuro = mean(c_across(N1:N5), na.rm = TRUE),
+       Open = mean(c_across(O1:O5), na.rm = TRUE),
+       ) %>% 
+  select(gender,education, age, Agree, Con, Open, Extra, Neuro) %>% 
+  
+
+bfi_scored %>% 
+  group_by(gender) %>% 
+  summarize(across(Agree:Neuro,
+            list(M = mean, SD = sd, min = min, max = max)
+            )
+)
+```  
+c_across - makes a vector
+functions need to be inside "across" when you use "across"
+don't need "c_across" when you use ":"
+help function:
+the first thing that needs to be after across is the columns
+2nd - list of functions you want to use
+
+R does not care about new lines! You can put paratheses into new lines to help you make sure you have the correct number of parentheses
+
+  
+```{r}
+
+``` 
+  
+  
+            
