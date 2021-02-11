@@ -95,8 +95,12 @@ Pick two quantitative variables to explore.
 Make a summary table of descriptive statistics for these variables using summarize(). 
 Include whatever staistics you feel appropriate (mean, median sd, range, etc.).
 ```{r}
-penguins %>%  
-summarise(mean = mean(bill_length_mm))
+penguins %>%
+summarize(mean_bill_length = mean(bill_length_mm),
+          mean_bill_depth = mean(bill_depth_mm),
+          sd_bill_length = sd(bill_length_mm),
+          sd_bill_depth = sd (bill_depth_mm)
+          )
 ```
 
 Make a scatterplot of these variables using ggplot().
