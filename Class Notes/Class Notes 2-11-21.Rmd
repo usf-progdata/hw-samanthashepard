@@ -1,0 +1,161 @@
+---
+title: "Class Notes 2-11-21"
+author: "Sam Shepard"
+date: "2/11/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Reviewing/trouble shooting/questions
+#Select = select columns
+#filter = select rows
+```{r}
+library(tidyverse)
+library(palmerpenguins)
+
+#Putting variables on x vs. y variables - use aes and just specify by typing out "x = " and "y = "
+ggplot(penguins) +
+  aes(x = species, y = flipper_length_mm)+
+  geom_point()+
+  theme_classic()
+#or put "geom_jitter" to spread out points
+```
+
+#Renaming x and y axes:
+```{r}
+#use scale functions
+#discrete = change categorical variable
+ggplot(penguins) +
+  aes(x = species, y = flipper_length_mm)+
+  geom_point()+
+  scale_x_discrete("Species")+
+  theme_classic()
+```
+
+#Renaming axes before plotting
+```{r}
+penguins %>% 
+  mutate(sex = recode(sex, female = "Female", male = "Male"))
+ggplot(penguins) +
+  aes(x = species, y = flipper_length_mm,
+      color = sex)+ 
+  geom_point()+
+  scale_x_discrete("Species")+
+  theme_classic()
+```
+##Changing axis title
+#can ALSO use xlab, ylab, or labs(x = "Species")
+#scale functions just give you more things to work with so it's a good intro/function to start with
+
+
+##Colors!
+```{r}
+penguins %>% 
+  mutate(sex = recode(sex, female = "Female", male = "Male"))
+ggplot(penguins) +
+  aes(x = species, y = flipper_length_mm,
+      color = sex)+
+  geom_point()+
+  scale_x_discrete("Species")+
+  scale_color_brewer(palette = "Blues")+
+  theme_classic()
+```
+
+##How to get good at programming
+#Think through it stepwise
+#first thing you think about - what are the specific things I want to do?
+#Break up steps into sub-steps
+#think through and write out each step!
+
+
+
+###Dplyr
+#https://talks.andrewheiss.com/2020-gpl/01_welcome-tidyverse/04_transform-data.html
+#Main verbs:
+#filter
+#First argument: data frame to transform
+#"...": which rows of data do you want to match
+
+```{r}
+filter(.data = gapminder, country == "Denmark")
+```
+
+#Important info about choosing more than 1 type of "row"
+```{r}
+#BAD: "condition ==c("A", "B")
+#GOOD: "condition%in%c("A", "B")
+#above - saying test all values against each row
+
+#==, >=, <= all compare 1 element to 1 element
+
+#%in% - compare 1 element to multiple different elements
+
+#%in% is a relational operator, just like the other "normal" ones
+
+#"=" is not an operator because it assigns values
+```
+
+##Commmon Mistakes
+#Using = rather than ==
+#Quote use
+
+Extract rows that pass every test:
+
+```{r}
+filter(gapminder, country == "Denmark", year > 2000)
+#comma - same as &
+#how to use the "OR" operation - button above the "Enter" button
+#"!=" - excludes
+```
+
+#Common syntax
+verb(data, ...)
+
+verb = dplyr function
+data = data frame
+... = stuff you want to do
+
+
+mutate(.data, columns you want to make)
+```{r}
+mutate(gapminder, gdp = gdpPercap * pop)
+#new column - gdp
+#multiply the two existing columns to create new vbl gdp
+```
+
+
+```{r}
+#create 2 vbls at same time
+#this isn't working for some reason?
+mutate(gapminder, gdp = gdpPercap * pop,
+       pop_mil = round(pop / 1000000)
+```
+#Do things for some rows and other things for other rows
+ifelse(test,
+       value if true
+       value if false)
+```{r}
+#Label data for before or after 1960
+mutate(gapminder,
+       after_1960 = ifelse (year>1960, TRUE, FALSE))
+```
+
+#What if you have multiple verbs?
+#piping!!!
+
+#Summarize
+```{r}
+gapminder %>%  summarize(mean_life = mean(lifeExp))
+#has same structure has mutate
+# fyi - data frames do not change unless you assign them to another name
+```
+
+#Group_by
+```{r}
+#summarize becomes most useful when combined with group_by
+gapminder %>% group_by(continent) %>% #nothing happens when you run only this command
+summarize(n_countries = n_distinct("country"))
+```
