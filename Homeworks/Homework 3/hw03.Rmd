@@ -48,9 +48,15 @@ mutate(
 
 ```{r}
 
+
+####still need to reverse-code these.
 green_data %>% 
   rowwise() %>% 
-  mutate(GreenRep = mean(c(green1, green2, green3, green4, green5), na.rm = TRUE),
+  mutate(
+          GreenRep = mean(c(green1, green2, green3, green4, green5), na.rm = TRUE),
+          Compassion = mean(c_across(comp1:comp10), na.rm = TRUE),
+          IntCur = mean(c_across(intel1:intel10), na.rm = TRUE),
+          Open = mean(c_across(open1:open10), na.rm = TRUE)
          )
 ```
 
