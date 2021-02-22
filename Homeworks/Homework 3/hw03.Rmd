@@ -35,9 +35,8 @@ Missing values are coded as -99; below is the code to change the -99 values to "
 green_data %>% 
 mutate(
   across(.cols = everything (),
-         ~ recode(.x, "-99" = NA, .default = .x)
+         ~ na_if(.x, "-99")
   ))
-
 
 #Notes from class:
 #everything = ALL COLUMNS
@@ -48,15 +47,29 @@ mutate(
   2. Compute total scores for the four scales.
 
 ```{r}
+#not sure if there are any reverse-coded items?
+#going to check reliability to see
+library(psych)
 
-
+View(dictionary)
+View(green_data)
 ```
 
 
      Recode variables as needed.
      
 ```{r}
+#reverse-code variables
 
+
+
+
+#recode categorical variables
+green_data %>%
+  mutate(
+    student = recode(student, "1" = "not a student", "2" = "student")
+  ) %>%
+  select(id, student)
 ```
 
 
