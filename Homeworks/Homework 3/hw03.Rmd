@@ -34,9 +34,10 @@ Missing values are coded as -99; below is the code to change the -99 values to "
 ```{r}
 green_data %>% 
 mutate(
-  across(everything ()),
-         ~recode(.x, "-99" = NA, .default = .x)
-  )
+  across(.cols = everything (),
+         ~ recode(.x, "-99" = NA, .default = .x)
+  ))
+
 
 #Notes from class:
 #everything = ALL COLUMNS
