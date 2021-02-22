@@ -7,33 +7,45 @@ output:
   html_document: default
 ---
 
+<!-- BMW: Please knit twice. Once to github_document and once to html_document. --> 
+
 ## Directions etc.
 
 Assignment 02: Explore gapminder and use dplyr
+
+<!-- BMW: In markdown, if you want things on new lines, you need to put blank lines between them. A single linebreak is ignored. -->
+
 Jan 1, 0001
+
 Objective
+
 The goal is to practice with ggplot2 and dplyr to explore a dataset.
 
+
 Setup
+
 Work with the gapminder::gapminder data we explored in class.
 
 Load up the packages you will need for this assignment using library():
 
 Tidy Submission
+
 Please be sure to follow the instructions for making a tidy submission, found on the assignments home page.
 
 Exercise 1: Basic dplyr
+
 Use dplyr functions to achieve the following.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(dplyr)
 library(ggplot2)
-library (gapminder)
+library(gapminder)
 library(palmerpenguins)
 ```
 
 ## 1.1
+
 Use filter() to subset the gapminder data to three countries of your choice in the 1970’s.
 
 ```{r}
@@ -43,85 +55,100 @@ samcountries <- gapminder %>%
 
 
 1.2
+
 Use the pipe operator %>% to select “country” and “gdpPercap” from your filtered dataset in 1.1.
 
 ```{r}
 samcountries %>%
-  select(country,gdpPercap)
+  select(country, gdpPercap)
 ```
 
 1.3
+
 Make a new variable in gapminder for the change in life expectancy from the previous measurement. Filter this table to show all of the entries that have experienced a drop in life expectancy.
 
 Hint: you might find the lag() or diff() functions useful.
 
 ```{r}
-library(Hmisc)
-
-gapminder$lifeExp_lag <- Lag(gapminder$lifeExp)
-
-  gapminder %>% 
-  mutate(lifeExp_lag_final = lifeExp - lifeExp_lag, .keep = "all")
+gapminder %>% 
+  mutate(changeLifeExp = lifeExp - lag(lifeExp)) %>% 
+  filter(changeLifeExp < 0)
 ```
 
+<!-- BMW: Almost. You computed a change in lifeExp, but didn't filter to show just the rows where lifeExp dropped. See above for a clean approach to the full project. -->
+
 1.4
+
 Filter gapminder so that it shows the max GDP per capita experienced by each country.
 
 Hint: you might find the max() function useful here.
 
 ```{r}
-gapminder %>% group_by(country) %>%
-  summarise(max = max (gdpPercap))
+gapminder %>% 
+  group_by(country) %>% # BMW: For readability, always start a new line after %>% 
+  filter(max == max (gdpPercap)) # BMW: The question asked you to _filter_ the dataset, not just show the summaries
 ```
 
 1.5
+
 Produce a scatterplot of Canada’s life expectancy vs. GDP per capita using ggplot2, without defining a new variable. That is, after filtering the gapminder data set, pipe it directly into the ggplot() function. In your plot, put GDP per capita on a log scale.
 
 ```{r}
 gapminder %>%
   filter(country == "Canada") %>%
   ggplot()+
-  aes(gdpPercap, lifeExp)+
-  geom_point()+
+  aes(x = gdpPercap, y = lifeExp) +
+  geom_point() +
   scale_x_log10(labels = scales::comma_format())
 ```
 
 Exercise 2: Explore two variables with dplyr and ggplot2
+
 Use palmerpenguins::penguins or another dataset of your choice. (Check out a dataset from the datasets R package if you want!)
 
 2.1
+
 Pick two quantitative variables to explore.
 
 Make a summary table of descriptive statistics for these variables using summarize(). 
 Include whatever staistics you feel appropriate (mean, median sd, range, etc.).
+
 ```{r}
 penguins %>%
-summarize(mean_bill_length = mean(bill_length_mm),
-          mean_bill_depth = mean(bill_depth_mm),
-          sd_bill_length = sd(bill_length_mm),
-          sd_bill_depth = sd (bill_depth_mm)
+summarize(mean_bill_length = mean(bill_length_mm, na.rm = TRUE), # BMW: You probably want na.rm = TRUE
+          mean_bill_depth = mean(bill_depth_mm, na.rm = TRUE),
+          sd_bill_length = sd(bill_length_mm, na.rm = TRUE),
+          sd_bill_depth = sd(bill_depth_mm, na.rm = TRUE)
           )
 ```
 
 Make a scatterplot of these variables using ggplot().
+
 ```{r}
 ggplot(penguins) +
-  aes(bill_length_mm, bill_depth_mm, color = species) +
+  aes(x = bill_length_mm, y = bill_depth_mm, color = species) +
   geom_point(alpha = 0.2)
 ```
 
 2.2
+
 Pick one categorical variable and one quantitative variable to explore.
 
 Make a summary table giving the sample size (hint: n()) and descriptive statistics for the quantitative variable by group.
+
 ```{r}
-  group_by(penguins, sex) %>% 
-  summarise(tibble(mean = mean(body_mass_g)), n())
+penguins %>%
+  group_by(sex) %>%
+  summarise(mean = mean(body_mass_g), # BMW: What were you were trying to do with tibble() there?
+            n = n()
+  )
 ```
 
 Make one or more useful plots to visualize these variables.
+
 ```{r}
 ggplot(penguins) +
-  aes(sex, body_mass_g) +
+  aes(sex, body_mass_g) + 
+  geom_jitter(aes(color = sex), height = 0, width = .2) + # BMW: Always better to show both the raw data (points) and the summary (bar/boxplot)
   geom_boxplot(alpha = 0.2)
 ```
