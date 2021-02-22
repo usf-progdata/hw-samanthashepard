@@ -47,42 +47,54 @@ mutate(
   2. Compute total scores for the four scales.
 
 ```{r}
-
-
-####still need to reverse-code these.
 green_data %>% 
   rowwise() %>% 
   mutate(
-          GreenRep = mean(c(green1, green2, green3, green4, green5), na.rm = TRUE),
-          Compassion = mean(c_across(comp1:comp10), na.rm = TRUE),
+          GreenRep = mean(c(green1, green2r, green3, green4, green5), na.rm = TRUE),
+          Compassion = mean(c(comp1, comp2, comp3, comp4, comp5, comp6r, comp7r, comp8r, comp9r, comp10r), na.rm = TRUE))
+```
+
+
+
           IntCur = mean(c_across(intel1:intel10), na.rm = TRUE),
           Open = mean(c_across(open1:open10), na.rm = TRUE)
          )
 ```
 
 
-     Recode variables as needed.
+##Recode variables as needed.
      
+     
+#Reverse-coding   
 ```{r}
-#reverse-code variables
-?across
-green2
-comp6:comp10
-intel7:intel10
-open7:open10
-
 green_data %>% 
   mutate(
-     across("green2", "comp6", "comp7", "comp8", "comp9", "comp10", "intel7", "intel8, "intel9", "intel10", "open7", "open8", "open9", "open10"),
-    recode(.x, "1" = 5, "2" = 4, "3" = 3, "4" = 2, "5" = 1),
-      ))
-      
-?across
-
-
-green_data %>% 
+   green2r = recode(green2, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   comp6r = recode(comp6, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   comp7r = recode(comp7, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   comp8r = recode(comp8, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   comp9r = recode(comp9, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   comp10r = recode(comp10, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   intel7r = recode(intel7, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   intel8r = recode(intel8, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   intel9r = recode(intel9, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   intel10r = recode(intel10, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   open7r = recode(open7, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   open8r = recode(open8, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   open9r = recode(open9, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"),
+   open10r = recode(open10, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1")) %>% 
+   
+  rowwise() %>% 
   mutate(
-   green2 = recode(green2, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1"))
+          GreenRep = mean(green1, green2r, green3, green4, green5), na.rm = TRUE),
+          Compassion = mean(comp1, comp2, comp3, comp4, comp5, comp6r, comp7r, comp8r, comp9r, comp10r) na.rm = TRUE),
+          IntCur = mean(intel1, intel2, intel3, intel4, intel5, intel6, intel7r, intel8r, intel9r, intel10r)
+          Open = mean(open1, open2, open3, open4, open5, open6, open7r, open8r, open9r, open10r)
+                    )
+          %>% 
+          
+  select(id, green2, green2r, comp6, comp6r, intel7, intel7r, open7, open7r, GreenRep, Compassion)
+
 ```
 
 
@@ -105,7 +117,7 @@ green_data %>%
 
 ```
     
-    Name the recaled variables `*_pomp`.
+    Name the rescaled variables `*_pomp`.
      
 ```{r}
 
