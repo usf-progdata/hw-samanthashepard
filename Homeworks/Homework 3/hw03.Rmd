@@ -65,7 +65,7 @@ green_data %>%
 ##Recode variables as needed.
      
      
-#Reverse-coding   
+#Reverse-coding and creating total scores   
 ```{r}
 green_data %>% 
   mutate(
@@ -86,14 +86,14 @@ green_data %>%
    
   rowwise() %>% 
   mutate(
-          GreenRep = mean(green1, green2r, green3, green4, green5), na.rm = TRUE),
-          Compassion = mean(comp1, comp2, comp3, comp4, comp5, comp6r, comp7r, comp8r, comp9r, comp10r) na.rm = TRUE),
-          IntCur = mean(intel1, intel2, intel3, intel4, intel5, intel6, intel7r, intel8r, intel9r, intel10r)
-          Open = mean(open1, open2, open3, open4, open5, open6, open7r, open8r, open9r, open10r)
-                    )
-          %>% 
-          
-  select(id, green2, green2r, comp6, comp6r, intel7, intel7r, open7, open7r, GreenRep, Compassion)
+          GreenRep = mean(green1, green2r, green3, green4, green5, trim = 0, na.rm = TRUE),
+          Compassion = mean(comp1, comp2, comp3, comp4, comp5, comp6r, comp7r, comp8r, comp9r, comp10r, trim = 0, na.rm = TRUE),
+          IntCur = mean(intel1, intel2, intel3, intel4, intel5, intel6, intel7r, intel8r, intel9r, intel10r, trim = 0, na.rm = TRUE),
+          Open = mean(open1, open2, open3, open4, open5, open6, open7r, open8r, open9r, open10r, trim = 0, na.rm = TRUE)) %>% 
+        
+  select(id, green2, green2r, comp6, comp6r, intel7, intel7r, open7, open7r, GreenRep, Compassion, IntCur, Open)
+  
+#The table that populates doesn't show the decimals for the total scores?
 
 ```
 
