@@ -3,6 +3,8 @@ title: "hw03"
 author: "Sam Shepard"
 date: "1/25/2021"
 output:
+  html_document:
+    df_print: paged
   github_document: default
 ---
 
