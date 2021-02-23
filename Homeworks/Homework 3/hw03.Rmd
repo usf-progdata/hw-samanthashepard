@@ -23,19 +23,15 @@ dictionary <- readr::read_csv("green_dictionary.csv")
 green_data <- readr::read_csv("green_data.csv")
 ```
 
-For your assignment, do the following.
-
-  1. Inspect the item responses (e.g., with graphs or by summarizing distinct values). 
+### 1. Inspect the item responses (e.g., with graphs or by summarizing distinct values). 
   
 ```{r}
 summary(green_data)
-
-
-
 ```
   
-     Is anything unusual?
+### Is anything unusual?
 Missing values are coded as -99; below is the code to change the -99 values to "missing."
+
 ```{r}
 green_data %>% 
 mutate(
@@ -49,13 +45,13 @@ mutate(
 #.x = the current column
 ```
 
-  2. Compute total scores for the four scales.
+### 2. Reverse-coding, recoding categorical variable, and creating total scores.
 
-##Recode variables as needed.
-     
-     
-#Reverse-coding and creating total scores   
 ```{r}
+
+#the across functions were not agreeing with me, so I just went with this super long thing.
+
+
 green_data_scored <- green_data %>% 
   mutate(
    green2r = recode(green2, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
@@ -88,13 +84,13 @@ green_data_scored <- green_data %>%
 ```
 
 
-  3. Rescale the variables so that they go from 0-100 instead of the original range.
+### 3. Rescale the variables so that they go from 0-100 instead of the original range. Name the rescaled variables `*_pomp`.
 
 
 Since the scores go from 1-5, I'm going to multiply values by 20, so that the maximum number is 100.
-Name the rescaled variables `*_pomp`.
+
 ```{r}
-green_data_scored %>% 
+green_data_scored_POMP <- green_data_scored %>% 
 mutate(
 GreenRep_pomp = (GreenRep * 20),
 Compassion_pomp = (Compassion * 20),
@@ -106,37 +102,39 @@ select(GreenRep_pomp, Compassion_pomp, IntCur_pomp, Open_pomp)
 
 ```
     
-  4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
+### 4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
   
   
 ```{r}
-qplot(green_data_scored$GreenRep_pomp, geom="histogram") 
+qplot(green_data_scored_POMP$GreenRep_pomp, geom="histogram")
+qplot(green_data_scored_POMP$Compassion_pomp, geom="histogram")
+qplot(green_data_scored_POMP$IntCur_pomp, geom="histogram")
+qplot(green_data_scored_POMP$Open_pomp, geom="histogram")
 
 ```
   
-```{r}
+  
 
-
-  5. Make scatterplots showing the relationships between **green reputation** and each personality trait.
+### 5. Make scatterplots showing the relationships between **green reputation** and each personality trait.
   
 ```{r}
-
-?ggplot
-
-?ggplot
-
+green_data_scored_POMP %>% 
+ggplot() +
+  aes(GreenRep_pomp, Compassion_pomp) +
+  geom_point()
 ```
-     Include trend lines for **students** and **non-students**.
+
+### Include trend lines for **students** and **non-students**.
 
 ```{r}
 
 
 
 ```
-     What do these plots show?
+### What do these plots show?
      
      
-  6. Compare **green reputation** for students and non-students using a **rainfall plot** (bar + density + data points).
+### 6. Compare **green reputation** for students and non-students using a **rainfall plot** (bar + density + data points).
   
 ```{r}
 
@@ -149,7 +147,7 @@ qplot(green_data_scored$GreenRep_pomp, geom="histogram")
 
 
 ```
-  7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
+### 7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
   
 ```{r}
 green_data_scored %>% 
