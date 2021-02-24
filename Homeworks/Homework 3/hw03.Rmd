@@ -69,7 +69,7 @@ green_data_missing_r <- green_data_missing %>%
 
 
 ```{r}
-green_data_missing_r_total <- green_data_missing_r %>% 
+green_data_missing_r_totals <- green_data_missing_r %>% 
   rowwise() %>% 
   mutate(
           GreenRep = mean(c_across(c(green1, green2r, green3:green5)), trim = 0, na.rm = TRUE),
@@ -84,7 +84,7 @@ green_data_missing_r_total <- green_data_missing_r %>%
 ### 3. Rescale the variables so that they go from 0-100 instead of the original range. Name the rescaled variables `*_pomp`.
 
 ```{r}
-green_data_scored_POMP <- green_data_missing_r_total %>% 
+green_data_scored_POMP <- green_data_missing_r_totals %>% 
 mutate(
 GreenRep_pomp = (GreenRep * 20),
 Compassion_pomp = (Compassion * 20),
@@ -100,13 +100,18 @@ select(id, student, GreenRep_pomp, Compassion_pomp, IntCur_pomp, Open_pomp)
 
 **Overall, participants are high in compassion, intellectual curiosity, and openness to experience. The data for green reputation is more normally distributed.**
   
-  
 ```{r}
-qplot(green_data_scored_POMP$GreenRep_pomp, geom="histogram")
-qplot(green_data_scored_POMP$Compassion_pomp, geom="histogram")
-qplot(green_data_scored_POMP$IntCur_pomp, geom="histogram")
-qplot(green_data_scored_POMP$Open_pomp, geom="histogram")
+ggplot(green_data_scored_POMP, aes(x=GreenRep_pomp)) +
+            geom_histogram(binwidth = .5,colour="black", fill="white")
 
+ggplot(green_data_scored_POMP, aes(x=Compassion_pomp)) +
+            geom_histogram(binwidth = .5,colour="black", fill="white")
+
+ggplot(green_data_scored_POMP, aes(x=IntCur_pomp)) +
+            geom_histogram(binwidth = .5,colour="black", fill="white")
+
+ggplot(green_data_scored_POMP, aes(x=Open_pomp)) +
+            geom_histogram(binwidth = .5,colour="black", fill="white")
 ```
   
   

@@ -1,0 +1,31 @@
+---
+title: "My R questions"
+author: "Sam Shepard"
+date: "2/24/2021"
+output: html_document
+---
+
+## General questions:
+What is the utility in naming plots as objects?
+
+
+
+
+
+# Questions re: code:
+```{r}
+
+
+
+```
+
+
+```{r}
+
+
+
+```
+
+
+
+
