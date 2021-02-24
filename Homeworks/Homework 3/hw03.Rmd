@@ -72,22 +72,19 @@ green_data_missing_r <- green_data_missing %>%
 green_data_missing_r_total <- green_data_missing_r %>% 
   rowwise() %>% 
   mutate(
-          GreenRep = mean(green1, green2r & green3:green5, trim = 0, na.rm = TRUE),
-          Compassion = mean(comp1:comp5 & comp6r:comp10r, trim = 0, na.rm = TRUE),
-          IntCur = mean(intel1:intel6 & intel7r:intel10r, trim = 0, na.rm = TRUE),
-          Open = mean(open1:open6 & open7r:open10r, trim = 0, na.rm = TRUE)) %>% 
+          GreenRep = mean(c_across(c(green1, green2r, green3:green5)), trim = 0, na.rm = TRUE),
+          Compassion = mean(c_across(c(comp1:comp5, comp6r:comp10r)), trim = 0, na.rm = TRUE),
+          IntCur = mean(c_across(c(intel1:intel6, intel7r:intel10r)), trim = 0, na.rm = TRUE),
+          Open = mean(c_across(c(open1:open6, open7r:open10r)), trim = 0, na.rm = TRUE)) %>% 
         
   select(id, student, GreenRep, Compassion, IntCur, Open)
-
-#The table that populates doesn't show the decimals for the total scores?
-
 ```
 
 
 ### 3. Rescale the variables so that they go from 0-100 instead of the original range. Name the rescaled variables `*_pomp`.
 
 ```{r}
-green_data_scored_POMP <- green_data_scored %>% 
+green_data_scored_POMP <- green_data_missing_r_total %>% 
 mutate(
 GreenRep_pomp = (GreenRep * 20),
 Compassion_pomp = (Compassion * 20),
