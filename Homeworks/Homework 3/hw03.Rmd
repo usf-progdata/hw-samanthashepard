@@ -3,9 +3,9 @@ title: "hw03"
 author: "Sam Shepard"
 date: "1/25/2021"
 output:
-  github_document: default
   html_document:
     df_print: paged
+  github_document: default
 ---
 
 # Homework 03
@@ -48,6 +48,14 @@ mutate(
 ```
 
 ### 2. Reverse-coding, recoding categorical variable, and creating total scores.
+```{r}
+?pull
+
+
+
+```
+
+
 
 ```{r}
 
