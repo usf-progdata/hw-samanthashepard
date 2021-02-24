@@ -49,48 +49,38 @@ mutate(
 
 ### 2. Reverse-coding, recoding categorical variable, and creating total scores.
 ```{r}
-?pull
+reversed <- dictionary %>% 
+  filter(Keying == -1|Keying == -2) %>% 
+  pull(Item)
+```
 
+```{r}
 
-
+green_data_missing_r <- green_data_missing %>% 
+  mutate(
+    across(all_of(reversed),
+           ~ 6 - .x,
+           .names = "{.col}r"),
+     student = recode(student, "1" = "not a student", "2" = "student", .missing = "(Unknown)")
+  )
 ```
 
 
 
+
 ```{r}
-
-#the across functions were not agreeing with me, so I just went with this super long thing.
-
-
-green_data_scored <- green_data_missing %>% 
-  mutate(
-   green2r = recode(green2, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   comp6r = recode(comp6, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   comp7r = recode(comp7, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   comp8r = recode(comp8, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   comp9r = recode(comp9, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   comp10r = recode(comp10, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   intel7r = recode(intel7, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   intel8r = recode(intel8, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   intel9r = recode(intel9, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   intel10r = recode(intel10, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   open7r = recode(open7, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   open8r = recode(open8, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   open9r = recode(open9, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   open10r = recode(open10, "1" = "5", "2" = "4", "3" = "3", "4" = "2", "5" = "1", .missing = "(Unknown)"),
-   student = recode(student, "1" = "not a student", "2" = "student", .missing = "(Unknown)")
-  ) %>%
-
+green_data_missing_r_total <- green_data_missing_r %>% 
   rowwise() %>% 
   mutate(
-          GreenRep = mean(green1, green2r, green3, green4, green5, trim = 0, na.rm = TRUE),
-          Compassion = mean(comp1, comp2, comp3, comp4, comp5, comp6r, comp7r, comp8r, comp9r, comp10r, trim = 0, na.rm = TRUE),
-          IntCur = mean(intel1, intel2, intel3, intel4, intel5, intel6, intel7r, intel8r, intel9r, intel10r, trim = 0, na.rm = TRUE),
-          Open = mean(open1, open2, open3, open4, open5, open6, open7r, open8r, open9r, open10r, trim = 0, na.rm = TRUE)) %>% 
+          GreenRep = mean(green1, green2r & green3:green5, trim = 0, na.rm = TRUE),
+          Compassion = mean(comp1:comp5 & comp6r:comp10r, trim = 0, na.rm = TRUE),
+          IntCur = mean(intel1:intel6 & intel7r:intel10r, trim = 0, na.rm = TRUE),
+          Open = mean(open1:open6 & open7r:open10r, trim = 0, na.rm = TRUE)) %>% 
         
-  select(id, student, green2, green2r, comp6, comp6r, intel7, intel7r, open7, open7r, GreenRep, Compassion, IntCur, Open)
+  select(id, student, GreenRep, Compassion, IntCur, Open)
 
 #The table that populates doesn't show the decimals for the total scores?
+
 ```
 
 
