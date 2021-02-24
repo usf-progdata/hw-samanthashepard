@@ -84,7 +84,7 @@ green_data_missing_r_totals <- green_data_missing_r %>%
 ### 3. Rescale the variables so that they go from 0-100 instead of the original range. Name the rescaled variables `*_pomp`.
 
 ```{r}
-green_data_scored_POMP <- green_data_missing_r_totals %>% 
+(green_data_scored_POMP <- green_data_missing_r_totals %>% 
 mutate(
 GreenRep_pomp = (GreenRep * 20),
 Compassion_pomp = (Compassion * 20),
@@ -92,7 +92,7 @@ IntCur_pomp = (IntCur * 20),
 Open_pomp = (Open * 20)
 ) %>% 
 
-select(id, student, GreenRep_pomp, Compassion_pomp, IntCur_pomp, Open_pomp)
+select(id, student, GreenRep_pomp, Compassion_pomp, IntCur_pomp, Open_pomp))
 
 ```
     
@@ -102,16 +102,16 @@ select(id, student, GreenRep_pomp, Compassion_pomp, IntCur_pomp, Open_pomp)
   
 ```{r}
 ggplot(green_data_scored_POMP, aes(x=GreenRep_pomp)) +
-            geom_histogram(binwidth = .5,colour="black", fill="white")
+            geom_histogram()
 
 ggplot(green_data_scored_POMP, aes(x=Compassion_pomp)) +
-            geom_histogram(binwidth = .5,colour="black", fill="white")
+            geom_histogram()
 
 ggplot(green_data_scored_POMP, aes(x=IntCur_pomp)) +
-            geom_histogram(binwidth = .5,colour="black", fill="white")
+            geom_histogram()
 
 ggplot(green_data_scored_POMP, aes(x=Open_pomp)) +
-            geom_histogram(binwidth = .5,colour="black", fill="white")
+            geom_histogram()
 ```
   
   
