@@ -8,7 +8,8 @@ output: html_document
 ## General questions:
 What is the utility in naming plots as objects?
 
-
+How to add trend lines to existing plots?
+*I tried geom_line() but it looks terrible for some reason (HW 3; #5)
 
 
 
