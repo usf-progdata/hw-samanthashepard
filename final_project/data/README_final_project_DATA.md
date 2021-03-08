@@ -1,0 +1,3 @@
+## Data Programming: Final Project **Data Documentation**
+
+Document your data. Describe the key variables, their types (e.g., character, integrer, numeric), their possible values (e.g., for a personality item, maybe integers from 1-5), etc. Describe how missing data is indicated (blank cells, “NA”, “-999”, etc.). This documentation could be in the main project README.md file or in a README.md or other .md file in the data folder.
