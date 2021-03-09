@@ -11,6 +11,15 @@ What is the utility in naming plots as objects?
 How to add trend lines to existing plots?
 *I tried geom_line() but it looks terrible for some reason (HW 3; #5)
 
+How can you get a print out of only your variables?
+
+How can you move columns around within your data set?
+
+When do you use across/c/c_across? What do you do if your variables aren't right next to each other?
+
+How can you navigate through your data to find specific columns and look at the column data?
+
+How do you get R to ignore missing values?
 
 
 # Questions re: code:

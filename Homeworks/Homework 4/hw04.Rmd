@@ -22,7 +22,7 @@ library(ggplot2)
 
 ```{r}
 #set working directory to "hw-samanthashepard"
-PhysioThesis_CLEAN <- read_sav(here::here("final_project", "data", "PhysioThesis_March_21_2020_CLEAN.sav"),
+PhysioThesis_CLEAN <- read_sav(here::here("final_project", "data", "PhysioThesis_March_21_2020_CLEAN.sav"), na = c("NA", ""),
                                col_types = cols(
                                  "Cndtn" = col_character(),
                                  .default = col_guess()
@@ -37,13 +37,26 @@ View(PhysioThesis_CLEAN)
 ncol(PhysioThesis_CLEAN)
 nrow(PhysioThesis_CLEAN)
 ```
+
 ```{r}
-?col_character
+PhysioThesis_CLEAN %>% 
+  mutate(Condition = as.character(Cndtn),
+        
+         )
 ```
 
 
 ```{r}
 #Summary tables to make sure my main variables look normal
+PhysioThesis_CLEAN_descriptives<-PhysioThesis_CLEAN %>%
+  group_by("Condition") %>% 
+  summarize(across(PerformanceSelfEsteem:PosImp),
+            list (Mean = ~ mean(.x, na.rm = TRUE),
+                SD = ~ sd(.x, na.rm = TRUE),
+                Median = ~ median(.x, na.rm = TRUE),
+                Min = ~ min(.x, na.rm = TRUE),
+                Max = ~ max(.x, na.rm = TRUE)
+      ))
 
 ```
 
@@ -51,22 +64,12 @@ nrow(PhysioThesis_CLEAN)
 #Plot
 
 # Scatterplot 8
-ggplot(penguins) +
-  aes(x = species,
-      y = flipper_length_mm,
-      fill = species,
-      color = species) +
-  geom_jitter(height = 0,
-              width = .4) +
-  geom_boxplot(color = "black",
-               alpha = .5)
-
 ggplot(PhysioThesis_CLEAN) +
   aes(x = Cndtn, y = ChThCW3)+
-  geom_boxplot(
-    aes(x = Cndtn, y = ChThCW3)
-      )+
-  theme_classic()
+  geom_boxplot()+
+  geom_jitter()+
+  theme_classic()+
+  xlab("Condition") +ylab("Challenge-Threat Index")
 
 ```
 
