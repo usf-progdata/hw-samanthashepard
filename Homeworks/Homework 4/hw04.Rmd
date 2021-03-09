@@ -14,9 +14,11 @@ library(ggplot2)
 
 ```{r}
 #set working directory to "hw-samanthashepard"
+PhysioThesis_CLEAN <- read_sav(here::here("final_project", "data", "PhysioThesis_March_21_2020_CLEAN.sav")
+```
+                              
 
-PhysioThesis_CLEAN <- read_sav(here::here("final_project", "data", "PhysioThesis_March_21_2020_CLEAN.sav"))
-
+```{r}
 View(PhysioThesis_CLEAN)
 ncol(PhysioThesis_CLEAN)
 nrow(PhysioThesis_CLEAN)
@@ -30,6 +32,17 @@ nrow(PhysioThesis_CLEAN)
 
 ```{r}
 #Plot
+
+# Scatterplot 8
+ggplot(penguins) +
+  aes(x = species,
+      y = flipper_length_mm,
+      fill = species,
+      color = species) +
+  geom_jitter(height = 0,
+              width = .4) +
+  geom_boxplot(color = "black",
+               alpha = .5)
 
 ggplot(PhysioThesis_CLEAN) +
   aes(x = Cndtn, y = ChThCW3)+
