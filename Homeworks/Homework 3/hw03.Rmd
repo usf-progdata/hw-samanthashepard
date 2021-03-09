@@ -3,21 +3,17 @@ title: "hw03"
 author: "Sam Shepard"
 date: "1/25/2021"
 output:
-  html_document:
-    df_print: paged
   github_document: default
 ---
 
 # Homework 03
 
-### You will analyze data looking at the relationship between **green reputation** and three personality traits--**compassion**, **intellectual curiosity**, and **openness to experiences**.
-## The dataset includes data from **students** and **non-students**.
+You will analyze data looking at the relationship between **green reputation** and three personality traits--**compassion**, **intellectual curiosity**, and **openness to experiences**.
+The dataset includes data from **students** and **non-students**.
 
 ```{r}
 library(dplyr)
 library(tidyverse)
-library(graphics)
-library(ggplot2)
 ```
 
 ```{r}
@@ -25,183 +21,39 @@ dictionary <- readr::read_csv("green_dictionary.csv")
 green_data <- readr::read_csv("green_data.csv")
 ```
 
-### 1. Inspect the item responses (e.g., with graphs or by summarizing distinct values). 
+For your assignment, do the following.
+
+  1. Inspect the item responses (e.g., with graphs or by summarizing distinct values). 
   
 ```{r}
 summary(green_data)
 ```
   
-### Is anything unusual?
-**Missing values are coded as -99; below is the code to change the -99 values to "missing."**
+     Is anything unusual?
+  2. Compute total scores for the four scales.
 
 ```{r}
-green_data_missing <- green_data %>% 
-mutate(
-  across(.cols = everything (),
-         ~ na_if(.x, "-99")
-  ))
-
-#Notes from class:
 #everything = ALL COLUMNS
+
 #~ = opens up for using ".x"
 #.x = the current column
 ```
 
-### 2. Reverse-coding, recoding categorical variable, and creating total scores.
-```{r}
-reversed <- dictionary %>% 
-  filter(Keying == -1|Keying == -2) %>% 
-  pull(Item)
-```
 
-```{r}
-
-green_data_missing_r <- green_data_missing %>% 
-  mutate(
-    across(all_of(reversed),
-           ~ 6 - .x,
-           .names = "{.col}r"),
-     student = recode(student, "1" = "not a student", "2" = "student", .missing = "(Unknown)")
-  )
-```
-
-
-
-
-```{r}
-green_data_missing_r_totals <- green_data_missing_r %>% 
-  rowwise() %>% 
-  mutate(
-          GreenRep = mean(c_across(c(green1, green2r, green3:green5)), trim = 0, na.rm = TRUE),
-          Compassion = mean(c_across(c(comp1:comp5, comp6r:comp10r)), trim = 0, na.rm = TRUE),
-          IntCur = mean(c_across(c(intel1:intel6, intel7r:intel10r)), trim = 0, na.rm = TRUE),
-          Open = mean(c_across(c(open1:open6, open7r:open10r)), trim = 0, na.rm = TRUE)) %>% 
-        
-  select(id, student, GreenRep, Compassion, IntCur, Open)
-```
-
-
-### 3. Rescale the variables so that they go from 0-100 instead of the original range. Name the rescaled variables `*_pomp`.
-
-```{r}
-(green_data_scored_POMP <- green_data_missing_r_totals %>% 
-mutate(
-GreenRep_pomp = (GreenRep * 20),
-Compassion_pomp = (Compassion * 20),
-IntCur_pomp = (IntCur * 20),
-Open_pomp = (Open * 20)
-) %>% 
-
-select(id, student, GreenRep_pomp, Compassion_pomp, IntCur_pomp, Open_pomp))
-
-```
-    
-### 4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
-
-**Overall, participants are high in compassion, intellectual curiosity, and openness to experience. The data for green reputation is more normally distributed.**
-  
-```{r}
-ggplot(green_data_scored_POMP, aes(x=GreenRep_pomp)) +
-            geom_histogram()
-
-ggplot(green_data_scored_POMP, aes(x=Compassion_pomp)) +
-            geom_histogram()
-
-ggplot(green_data_scored_POMP, aes(x=IntCur_pomp)) +
-            geom_histogram()
-
-ggplot(green_data_scored_POMP, aes(x=Open_pomp)) +
-            geom_histogram()
-```
-  
-  
-
-### 5. Make scatterplots showing the relationships between **green reputation** and each personality trait. Include trend lines for **students** and **non-students**.
-
-**Write narrative here once the student lines are figured out**
-
-**Compassion & Green Reputation**  
-```{r}
-green_data_scored_POMP %>% 
-ggplot() +
-  aes(GreenRep_pomp, Compassion_pomp, linetype = student) +
-  geom_point() +
-  geom_jitter() +
-  geom_smooth()
-
-#I tried geom_line(), but that turned out absolutely horrific, so I went with geom_smooth for this draft.
-```
-
-**Intellectual Curiosity & Green Reputation**  
-
-```{r}
-green_data_scored_POMP %>% 
-ggplot() +
-  aes(GreenRep_pomp, IntCur_pomp, linetype = student) +
-  geom_point() +
-  geom_jitter() +
-  geom_smooth()
-
-```
-
-**Openness to Experience & Green Reputation** 
-
-```{r}
-green_data_scored_POMP %>% 
-ggplot() +
-  aes(GreenRep_pomp, Open_pomp, linetype = student, color = student) +
-  geom_point() +
-  geom_jitter() +
-  geom_smooth()
-
-```
-
-
-
-
-
+     Recode variables as needed.
      
-### 6. Compare **green reputation** for students and non-students using a **rainfall plot** (bar + density + data points).
-
-**The rainfall plot indicates that the distributions for students and non-students are very similar.**
-  
 ```{r}
-green_data_scored_POMP %>%
-ggplot() +
-  aes(y = student, x = GreenRep_pomp, na.omit, color = student) +
-  geom_jitter() +
-  geom_boxplot(alpha = .1) +
-  ggdist::stat_slab()
-  
-```
- 
-### 7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
 
-**Write narrative description after figuring out what is wrong with this summary table**
-  
-```{r}
-green_data_scored_POMP %>% 
-  group_by(student) %>% 
-  summarize(GreenRep_M = mean(GreenRep_pomp),
-            GreenRep_SD = sd(GreenRep_pomp),
-            GreenRep_Med = median(GreenRep_pomp),
-            GreenRep_Min = min(GreenRep_pomp),
-            GreenRep_Max = max(GreenRep_pomp),
-            Compassion_M = mean(Compassion_pomp),
-            Compassion_SD = sd(Compassion_pomp),
-            Compassion_Med = median(Compassion_pomp),
-            Compassion_Min = min(Compassion_pomp),
-            Compassion_Max = max(Compassion_pomp),
-            IntCur_M = mean(IntCur_pomp),
-            IntCur_SD = sd(IntCur_pomp),
-            IntCur_Med = median(IntCur_pomp),
-            IntCur_Min = min(IntCur_pomp),
-            IntCur_Max = max(IntCur_pomp),
-            Open_M = mean(Open_pomp),
-            Open_SD = sd(Open_pomp),
-            Open_Med = median(Open_pomp),
-            Open_Min = min(Open_pomp),
-            Open_Max = max(Open_pomp))
-
-#Most of the values in this summary table read, "NA" or "NaN"
 ```
+
+
+  3. Rescale the variables so that they go from 0-100 instead of the original range.
+     Name the recaled variables `*_pomp`.
+  4. Make plots that illustrate the distributions of the 4 POMP-scored variables.
+  5. Make scatterplots showing the relationships between **green reputation** and each personality trait.
+     Include trend lines for **students** and **non-students**.
+     What do these plots show?
+  6. Compare **green reputation** for students and non-students using a **rainfall plot** (bar + density + data points).
+  7. Compute a summary table of means, SDs, medians, minima, and maxima for the four total scores for students and non-students.
+  
+In your assignment, prepare an RMarkdown file that includes both the coding and (for 4-7) narrative descriptions of your results.
