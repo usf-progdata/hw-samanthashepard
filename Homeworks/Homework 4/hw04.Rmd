@@ -5,6 +5,14 @@ date: "3/8/2021"
 output: html_document
 ---
 ```{r}
+#update R:
+#install.packages("installr")
+library(installr)
+updateR()
+```
+
+
+```{r}
 library(tidyverse)
 library(dplyr)
 library(haven) #to load .sav file
@@ -14,7 +22,13 @@ library(ggplot2)
 
 ```{r}
 #set working directory to "hw-samanthashepard"
-PhysioThesis_CLEAN <- read_sav(here::here("final_project", "data", "PhysioThesis_March_21_2020_CLEAN.sav")
+PhysioThesis_CLEAN <- read_sav(here::here("final_project", "data", "PhysioThesis_March_21_2020_CLEAN.sav"),
+                               col_types = cols(
+                                 "Cndtn" = col_character(),
+                                 .default = col_guess()
+                               )
+                               
+)
 ```
                               
 
@@ -22,6 +36,9 @@ PhysioThesis_CLEAN <- read_sav(here::here("final_project", "data", "PhysioThesis
 View(PhysioThesis_CLEAN)
 ncol(PhysioThesis_CLEAN)
 nrow(PhysioThesis_CLEAN)
+```
+```{r}
+?col_character
 ```
 
 
@@ -46,7 +63,6 @@ ggplot(penguins) +
 
 ggplot(PhysioThesis_CLEAN) +
   aes(x = Cndtn, y = ChThCW3)+
-  geom_point()+
   geom_boxplot(
     aes(x = Cndtn, y = ChThCW3)
       )+
