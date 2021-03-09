@@ -56,5 +56,4 @@ lotr_wide %>%
 
 #when you give character values - use quotations
 #if you didn't use quotations, R would think that species is an object
-
 ```

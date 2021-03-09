@@ -4,27 +4,44 @@ author: "Sam Shepard"
 date: "3/8/2021"
 output: html_document
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+```{r}
+library(tidyverse)
+library(dplyr)
+library(haven) #to load .sav file
+library(ggplot2)
 ```
 
-## R Markdown
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+```{r}
+#set working directory to "hw-samanthashepard"
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+PhysioThesis_CLEAN <- read_sav(here::here("final_project", "data", "PhysioThesis_March_21_2020_CLEAN.sav"))
 
-```{r cars}
-summary(cars)
+View(PhysioThesis_CLEAN)
+ncol(PhysioThesis_CLEAN)
+nrow(PhysioThesis_CLEAN)
 ```
 
-## Including Plots
 
-You can also embed plots, for example:
+```{r}
+#Summary tables to make sure my main variables look normal
 
-```{r pressure, echo=FALSE}
-plot(pressure)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+#Plot
+
+ggplot(PhysioThesis_CLEAN) +
+  aes(x = Cndtn, y = ChThCW3)+
+  geom_point()+
+  geom_boxplot(
+    aes(x = Cndtn, y = ChThCW3)
+      )+
+  theme_classic()
+
+```
+
+
+
+
+
